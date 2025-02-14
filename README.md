@@ -111,7 +111,9 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 root.render(<App />);
 ```
 
@@ -127,7 +129,10 @@ const [isLogin, setIsLogin] = useState<boolean>(false);
 const [member, setMember] = useState<string[]>([]);
 const [info, setInfo] = useState<null>(null);
 const [age, setAge] = useState<number>(0);
-const [user, setUser] = useState<{ name: string; age: number }>({ name: "", age: 0 });
+const [user, setUser] = useState<{ name: string; age: number }>({
+  name: "",
+  age: 0,
+});
 ```
 
 - 객체 리터럴 형태라면 interface 를 고려해 보자.
@@ -148,4 +153,74 @@ const [idol, setIdol] = useState<Idol>({ name: "", age: 0 });
 # 컴포넌트 살펴보기
 
 - `/src/components/Title.tsx`
-# 16week-React-CRA
+
+```tsx
+import React, { JSX } from "react";
+
+// const Title = () => {
+//   return <div>Title</div>;
+// };
+
+/**
+ * React.FC 는 React.FunctionComponent 을 말한다.
+ * - 자동으로 children 속성을 제공한다.
+ * - children 이 필요하지 않아도 제공한다.
+ */
+interface TitleProps {
+  age: number;
+  job: string;
+  children?: React.ReactNode;
+}
+// const Title: React.FC<TitleProps> = ({ age, job, children }) => {
+//   return (
+//     <div>
+//       Title {age} {job} {children}
+//     </div>
+//   );
+// };
+
+/**
+ * JSX.Element
+ * - 자동으로 children 속성을 제공하지 않는다.
+ * - 직접 관리해야 한다.
+ */
+
+// const Title = ({ age, job, children }: TitleProps): JSX.Element => {
+//   return (
+//     <div>
+//       Title {age} {job} {children}
+//     </div>
+//   );
+// };
+
+const Title: React.FC<TitleProps> = (props: TitleProps): JSX.Element => {
+  return <div>Title</div>;
+};
+
+export default Title;
+```
+
+- 컴포넌트 코딩 컨벤션
+
+  - Props 는 아래처럼 정의하자.
+
+  ```ts
+  interface 컴포넌트명Props {}
+  ```
+
+  - 컴포넌트의 형태는 아래처럼 정의하자.
+
+  ```tsx
+
+  interface 컴포넌트명Props = {
+    children?:React.ReactNode;
+  }
+
+
+  const 컴포넌트명 = ({ 속성, 속성 }: 인터페이스명): JSX.Element => {
+    return (
+      <div></div>
+    );
+  };
+  export default 컴포넌트명;
+  ```
